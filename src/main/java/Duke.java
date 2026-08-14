@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Duke {
     public static void main(String[] args) {
         String BANNER = "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n"
@@ -30,8 +32,23 @@ public class Duke {
         System.out.println(BANNER);
         System.out.println(String.format("Howdy! I'm %s!", CHATBOT_NAME));
         System.out.println(BAR);
-        System.out.println("See ya!");
-        System.out.println(BAR);
 
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextLine()) {
+            String command = scanner.nextLine();
+            if (command.equals("bye")) {
+                System.out.println("\t" + BAR);
+                System.out.println("\t" + "Bye. Hope to see you again soon!");
+                System.out.println("\t" + BAR);
+                break;
+            } else {
+                System.out.println("\t" + BAR);
+                System.out.println("\t" + command);
+                System.out.println("\t" + BAR);
+            }
+
+
+
+        }
     }
 }
