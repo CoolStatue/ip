@@ -17,7 +17,7 @@ bin/
 _temp/
 
 # .class files
-*.class
+**.class
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
