@@ -16,6 +16,7 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 * Explain the rationale for significant actions: what you did and why.
 * Keep explanations brief but instructive, supporting learning through responsible use of AI. For example:
+* Only edit a file if explicitly given permission to do so in the most recent prompt. If you need to edit a file you were not explicitly given permission to, ask for permission
 
   * When suggesting a Git command, briefly explain what it does.
   * Add explanatory Javadoc comments to all classes and to nontrivial methods and fields when their purpose or behavior is not obvious.
