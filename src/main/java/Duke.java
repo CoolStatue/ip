@@ -66,7 +66,7 @@ public class Duke {
             } else if (commandWord.equals("unmark")) {
                 updateTaskStatus(splitCommand, taskList, false, BAR);
             } else {
-                printError("I don't understand that command.", BAR);
+                printError("Hey pal, I don't understand what you're saying.", BAR);
             }
         }
     }
