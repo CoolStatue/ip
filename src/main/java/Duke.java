@@ -65,6 +65,8 @@ public class Duke {
                 updateTaskStatus(splitCommand, taskList, true, BAR);
             } else if (commandWord.equals("unmark")) {
                 updateTaskStatus(splitCommand, taskList, false, BAR);
+            } else if (commandWord.equals("delete")) {
+                deleteTask(splitCommand, taskList, BAR);
             } else {
                 printError("Hey pal, I don't understand what you're saying.", BAR);
             }
@@ -160,6 +162,30 @@ public class Duke {
             System.out.println("\t" + bar);
         } catch (NumberFormatException exception) {
             printError("That task number is too large.", bar);
+        }
+    }
+
+    private static void deleteTask(String[] splitCommand, ArrayList<Task> taskList, String bar) {
+        if (splitCommand.length != 2 || !splitCommand[1].matches("\\d+")) {
+            printError("Use: delete TASK_NUMBER", bar);
+        }
+        try {
+            int index = Integer.parseInt(splitCommand[1]) - 1;
+            if (index < 0 || index >= taskList.size()) {
+                printError("That task number does not exist.", bar);
+                return;
+            }
+
+            Task task = taskList.remove(index);
+            System.out.println("\t" + bar);
+            System.out.println("\tNoted: I have deleted this task:");
+            System.out.println("\t\t" + task.toString());
+            System.out.println("\tNow you have " + taskList.size() + " tasks in the list.");
+            System.out.println("\t" + bar);
+
+
+        } catch (NumberFormatException ex) {
+            printError("That task number is too large", bar);
         }
     }
 
