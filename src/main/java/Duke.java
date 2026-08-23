@@ -1,10 +1,15 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
 
 /**
  * Runs the Duke task manager command-line application.
  */
 public class Duke {
+    static Path taskListDataPath = Path.of("src/data/taskListData.txt");
+
     public static void main(String[] args) {
         final String BANNER = "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n"
                 + "▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░▓▓▓▓▓▓▓▓▓▓░░░░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n"
@@ -38,7 +43,11 @@ public class Duke {
         System.out.println(BAR);
 
         ArrayList<Task> taskList = new ArrayList<>();
+
+        readTaskListData(taskList);
+
         Scanner scanner = new Scanner(System.in);
+
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine().trim();
             if (command.isEmpty()) {
@@ -70,6 +79,41 @@ public class Duke {
             } else {
                 printError("Hey pal, I don't understand what you're saying.", BAR);
             }
+        }
+    }
+
+    private static void readTaskListData(ArrayList<Task> taskList) {
+        try (BufferedReader bufferedReader = Files.newBufferedReader(taskListDataPath)) {
+
+            String line;
+            List<String> splitLine;
+            Optional<Task> newTask = Optional.empty();
+            while ((line = bufferedReader.readLine()) != null) {
+                splitLine = Arrays.stream(line.split("\\|"))
+                        .map(s -> s.trim())
+                        .toList();
+                switch (splitLine.get(0)){
+                case "T":
+                    newTask = Optional.of(new ToDoTask(splitLine.get(2)));
+                    break;
+                case "D":
+                    newTask = Optional.of(new DeadlineTask(splitLine.get(2), splitLine.get(3)));
+                    break;
+                case "E":
+                    newTask = Optional.of(new EventTask(splitLine.get(2), splitLine.get(3), splitLine.get(4)));
+                    break;
+                default:
+                    // TODO deal with invalid save data
+                }
+                if (splitLine.get(1).equals("1")) {
+                    newTask.ifPresent(t -> t.markAsComplete());
+                }
+                taskList.add(newTask.orElseThrow(() -> new IOException()));
+            }
+        } catch (IOException ex) {
+            System.err.format("IOException: %s%n", ex);
+        } catch (IndexOutOfBoundsException ex) {
+            System.err.format("IndexOutOfBoundsException; %s%n", ex);
         }
     }
 
