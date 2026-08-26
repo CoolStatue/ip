@@ -19,6 +19,8 @@ _temp/
 # .class files
 **.class
 
+# data directory
+src/data/
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
