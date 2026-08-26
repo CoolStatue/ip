@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,6 +59,8 @@ public class Duke {
             String[] splitCommand = command.split("\\s+", 2);
             String commandWord = splitCommand[0];
             if (commandWord.equals("bye")) {
+                saveTaskListData(taskList);
+
                 System.out.println("\t" + BAR);
                 System.out.println("\t" + "Bye. Hope to see you again soon!");
                 System.out.println("\t" + BAR);
@@ -104,16 +107,31 @@ public class Duke {
                     break;
                 default:
                     // TODO deal with invalid save data
+                    newTask = Optional.empty();
+                    break;
                 }
                 if (splitLine.get(1).equals("1")) {
                     newTask.ifPresent(t -> t.markAsComplete());
                 }
-                taskList.add(newTask.orElseThrow(() -> new IOException()));
+                taskList.add(newTask.orElseThrow(() -> new Exception()));
             }
         } catch (IOException ex) {
             System.err.format("IOException: %s%n", ex);
         } catch (IndexOutOfBoundsException ex) {
             System.err.format("IndexOutOfBoundsException; %s%n", ex);
+        } catch (Exception ex) {
+            // TODO
+        }
+    }
+
+    private static void saveTaskListData(ArrayList<Task> taskList) {
+        try (BufferedWriter bw = Files.newBufferedWriter(taskListDataPath)) {
+            for (Task task: taskList) {
+                bw.write(task.toFileString());
+                bw.newLine();
+            }
+        } catch (IOException ex) {
+            System.err.format("IOException: %s%n", ex);
         }
     }
 

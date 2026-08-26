@@ -14,4 +14,11 @@ public class EventTask extends Task{
                 + " (from " + this.from
                 + " to: " + this.till + ")";
     }
+
+    @Override
+    public String toFileString() {
+        return "E | " + super.toFileString() + " | "
+                + this.from.toString() + " | "
+                + this.till.toString();
+    }
 }
