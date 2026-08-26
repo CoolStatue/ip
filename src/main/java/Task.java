@@ -11,6 +11,11 @@ public class Task {
         return (isDone ? "X" : " "); // mark done task with X
     }
 
+    /** Returns whether this task is currently marked as complete. */
+    public boolean isDone() {
+        return isDone;
+    }
+
 
     public void markAsComplete() {
         this.isDone = true;
@@ -29,5 +34,4 @@ public class Task {
         return (this.isDone ? "1" : "0") + " | " + this.description;
     }
 }
-
 
